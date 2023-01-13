@@ -8,5 +8,5 @@ For the dataset used in this research, please refer to the [Mojim Lyrics reposit
 
 ## Citation
 
-If this dataset is useful to your research, you can refer to it with the following citation (paper citation coming):
+If this repository, paper, or dataset is useful to your research, you can refer to it with the following citation (paper citation coming).
 
