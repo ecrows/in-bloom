@@ -1,0 +1,191 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form answer-format="flatten-objects">
+
+    <h1>PLEASE DO NOT ATTEMPT THIS TASK IF YOU CANNOT READ/WRITE CHINESE</h1>
+    <h2><b>YOU WILL BE REJECTED</b>. THANK YOU!</h2>
+    
+    <h2>你好！我们要读歌词.</h2>
+    
+    <h2>Q1: 读歌词. 形容这些歌词?</h2>
+    
+    <!-- The crowd-classifier element will create a tool for the Worker to select the
+           correct answer to your question -->
+    <p>{text}</p>
+    <p>形容这些歌词</p>
+    <crowd-input label="写在这里..." name="summary" required></crowd-input>
+
+    <h2>Q2: 这些歌词是否阅读顺畅？</h2>
+
+    <crowd-classifier
+      name="coherence"
+      categories="['是', '还行', '不太好', '否']"
+      header="这些歌词是否阅读顺畅？"
+    >
+    
+      <h2>这些歌词是否阅读顺畅？</h2>
+      <classification-target>
+        <!-- The text you want classified will be substituted for the "text" variable when you 
+               publish a batch with a CSV input file containing multiple text items  -->
+        ${text}
+      </classification-target>
+
+     <!-- Use the short-instructions section for quick instructions that the Worker
+            will see while working on the task. Including some basic examples of 
+            good and bad answers here can help get good results. You can include 
+            any HTML here. -->
+      <short-instructions>
+       Select a rating based on how easy the lyrics are to understand.  Keep in mind that these are song lyrics, and would normally be accompanied by music.
+      </short-instructions>
+
+      <!-- Use the full-instructions section for more detailed instructions that the 
+            Worker can open while working on the task. Including more detailed 
+            instructions and additional examples of good and bad answers here can
+            help get good results. You can include any HTML here. -->
+      <full-instructions header="Lyric Quality Instructions">
+        <p><strong>Very easy to understand</strong> lyrics are easily understood, and very coherent</p>
+        <p><strong>Somewhat easy to understand</strong> lyrics are mostly understandable, and most of the text is coherent</p>
+        <p><strong>Somewhat difficult to understand</strong> lyrics are difficult to understand, with only a small portion of the text making sense</p>
+        <p><strong>Very difficult to understand</strong> lyrics are very difficult to understand</p>
+      </full-instructions>
+
+    </crowd-classifier>
+    
+    <h2>Q3: 这些歌词有创意吗？</h2>
+    
+    <crowd-classifier 
+      name="creative"
+      categories="['有创意感', '还行', '没有创意']"
+      header="这些歌词有创意吗？"
+    >
+      <h2>这些歌词有创意吗？</h2>
+
+      <classification-target>
+        <!-- The text you want classified will be substituted for the "text" variable when you 
+               publish a batch with a CSV input file containing multiple text items  -->
+        ${text}
+      </classification-target>
+
+     <!-- Use the short-instructions section for quick instructions that the Worker
+            will see while working on the task. Including some basic examples of 
+            good and bad answers here can help get good results. You can include 
+            any HTML here. -->
+      <short-instructions>
+       Assign a score rating how creative you feel these lyrics are.  Creative lyrics are more distinctive, thought-provoking, entertaining, amusing, or interesting.
+      </short-instructions>
+      <!-- Use the full-instructions section for more detailed instructions that the 
+            Worker can open while working on the task. Including more detailed 
+            instructions and additional examples of good and bad answers here can
+            help get good results. You can include any HTML here. -->
+      <full-instructions header="Lyric Creativity Instructions">
+        <p><strong>Very creative</strong> lyrics are distinctive, amusing, interesting, or thought-provoking</p>
+        <p><strong>Somewhat creative</strong> lyrics may be slightly distinctive, mildly engaging, and somewhat thought-provoking</p>
+        <p><strong>Not creative</strong> lyrics are boring, predictable, or cliché</p>
+      </full-instructions>
+
+    </crowd-classifier>
+    
+    <h2>Q4: 你以前见过这些歌词吗?</h2>
+    
+    <crowd-classifier 
+      name="recognize"
+      categories="['见过', '我可能见过', '没见过']"
+      header="你以前见过这些歌词吗?"
+    >
+
+      <h2>你以前见过这些歌词吗？</h2>
+      <classification-target>
+        <!-- The text you want classified will be substituted for the "text" variable when you 
+               publish a batch with a CSV input file containing multiple text items  -->
+        ${text}
+      </classification-target>
+
+     <!-- Use the short-instructions section for quick instructions that the Worker
+            will see while working on the task. Including some basic examples of 
+            good and bad answers here can help get good results. You can include 
+            any HTML here. -->
+      <short-instructions>
+       Answer whether these lyrics are familiar to you. Do you remember having heard them in a song before?
+      </short-instructions>
+      <!-- Use the full-instructions section for more detailed instructions that the 
+            Worker can open while working on the task. Including more detailed 
+            instructions and additional examples of good and bad answers here can
+            help get good results. You can include any HTML here. -->
+      <full-instructions header="Lyric Recognition Instructions">
+        Answer whether you remember hearing these lyrics before.
+        <p><strong>Yes</strong> you remember hearing these lyrics before</p>
+        <p><strong>Maybe</strong> you aren't sure if you remember hearing these lyrics</p>
+        <p><strong>No</strong> you don't remember ever hearing these lyrics </p>
+      </full-instructions>
+
+    </crowd-classifier>
+    
+    <h2>Q5: 你喜欢这些歌词吗？</h2>
+    
+    <crowd-classifier 
+      name="like"
+      categories="['我很喜欢这些歌词', '我喜欢这些歌词。', '一般', '我不喜欢这些歌词', '我非常不喜欢这些歌词']"
+      header="你喜欢这些歌词吗？"
+    >
+      <h2>你喜欢这些歌词吗？</h2>
+
+      <classification-target>
+        <!-- The text you want classified will be substituted for the "text" variable when you 
+               publish a batch with a CSV input file containing multiple text items  -->
+        ${text}
+      </classification-target>
+
+     <!-- Use the short-instructions section for quick instructions that the Worker
+            will see while working on the task. Including some basic examples of 
+            good and bad answers here can help get good results. You can include 
+            any HTML here. -->
+      <short-instructions>
+       How much do ou like these lyrics?
+      </short-instructions>
+      <!-- Use the full-instructions section for more detailed instructions that the 
+            Worker can open while working on the task. Including more detailed 
+            instructions and additional examples of good and bad answers here can
+            help get good results. You can include any HTML here. -->
+      <full-instructions header="How much do you like these Lyrics Instructions">
+        Select the answer that best reflects how much you like these lyrics.
+      </full-instructions>
+    </crowd-classifier>
+    
+    <h2>Q6: 你会读中文吗？</h2>
+    
+    <crowd-classifier 
+      name="language"
+      categories="['我会读中文', '不会', '我不懂中文', 'I don&lsquo;t understand.']"
+      header="你会读中文吗？"
+    >
+      <h2>你会读中文吗？</h2>
+
+      <classification-target>
+        <!-- The text you want classified will be substituted for the "text" variable when you 
+               publish a batch with a CSV input file containing multiple text items  -->
+        你会读中文吗？
+      </classification-target>
+      
+      Comprehension
+
+     <!-- Use the short-instructions section for quick instructions that the Worker
+            will see while working on the task. Including some basic examples of 
+            good and bad answers here can help get good results. You can include 
+            any HTML here. -->
+      <short-instructions>
+       
+      </short-instructions>
+      <!-- Use the full-instructions section for more detailed instructions that the 
+            Worker can open while working on the task. Including more detailed 
+            instructions and additional examples of good and bad answers here can
+            help get good results. You can include any HTML here. -->
+      <full-instructions header="你会读中文吗？">
+        Comprehension
+      </full-instructions>
+    </crowd-classifier>
+</crowd-form> 
